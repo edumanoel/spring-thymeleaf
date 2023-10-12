@@ -28,6 +28,6 @@ public class Cargo extends AbstractEntity<Long> {
 
 	@Setter(AccessLevel.NONE)
 	@OneToMany(mappedBy = "cargo")
-	private List<Cargo> cargos;
+	private List<Funcionario> funcionarios;
 
 }
