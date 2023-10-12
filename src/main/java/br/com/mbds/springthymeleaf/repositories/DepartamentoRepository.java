@@ -1,4 +1,4 @@
-package br.com.mbds.springthymeleaf.repository;
+package br.com.mbds.springthymeleaf.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
