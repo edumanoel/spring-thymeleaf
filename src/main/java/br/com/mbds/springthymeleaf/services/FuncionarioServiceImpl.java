@@ -18,13 +18,7 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 
 	@Transactional
 	@Override
-	public Funcionario insert(Funcionario entity) {
-		return repository.save(entity);
-	}
-
-	@Transactional
-	@Override
-	public Funcionario update(Funcionario entity) {
+	public Funcionario save(Funcionario entity) {
 		return repository.save(entity);
 	}
 

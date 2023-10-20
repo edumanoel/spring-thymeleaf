@@ -5,9 +5,7 @@ import java.util.Optional;
 
 public interface BaseService<T> {
 
-	public T insert(T entity);
-
-	public T update(T entity);
+	public T save(T entity);
 
 	public void delete(Long id);
 

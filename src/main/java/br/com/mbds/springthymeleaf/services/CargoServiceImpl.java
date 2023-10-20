@@ -18,13 +18,7 @@ public class CargoServiceImpl implements CargoService {
 
 	@Transactional
 	@Override
-	public Cargo insert(Cargo entity) {
-		return repository.save(entity);
-	}
-
-	@Transactional
-	@Override
-	public Cargo update(Cargo entity) {
+	public Cargo save(Cargo entity) {
 		return repository.save(entity);
 	}
 
