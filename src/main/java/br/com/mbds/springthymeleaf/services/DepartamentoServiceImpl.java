@@ -31,7 +31,12 @@ public class DepartamentoServiceImpl implements DepartamentoService {
 	@Transactional
 	@Override
 	public void delete(Long id) {
-		repository.deleteById(id);
+		try {
+			repository.deleteById(id);
+		} catch (DataIntegrityViolationException e) {
+			throw new DataBaseException(e.getMessage());
+		}
+
 	}
 
 	@Override
