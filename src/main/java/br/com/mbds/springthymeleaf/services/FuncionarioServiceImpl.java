@@ -5,10 +5,10 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.mbds.springthymeleaf.entities.Funcionario;
 import br.com.mbds.springthymeleaf.repositories.FuncionarioRepository;
-import jakarta.transaction.Transactional;
 
 @Service
 public class FuncionarioServiceImpl implements FuncionarioService {

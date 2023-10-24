@@ -6,11 +6,13 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import br.com.mbds.springthymeleaf.entities.Departamento;
 import br.com.mbds.springthymeleaf.exceptions.DataBaseException;
+import br.com.mbds.springthymeleaf.exceptions.NotFoundException;
 import br.com.mbds.springthymeleaf.repositories.DepartamentoRepository;
-import jakarta.transaction.Transactional;
 
 @Service
 public class DepartamentoServiceImpl implements DepartamentoService {
@@ -18,7 +20,7 @@ public class DepartamentoServiceImpl implements DepartamentoService {
 	@Autowired
 	private DepartamentoRepository repository;
 
-	@Transactional
+	@Transactional(propagation = Propagation.SUPPORTS)
 	@Override
 	public Departamento save(Departamento entity) {
 		try {
@@ -28,15 +30,18 @@ public class DepartamentoServiceImpl implements DepartamentoService {
 		}
 	}
 
-	@Transactional
+	@Transactional(propagation = Propagation.SUPPORTS)
 	@Override
 	public void delete(Long id) {
 		try {
-			repository.deleteById(id);
+			if (repository.existsById(id)) {
+				repository.deleteById(id);
+			} else {
+				throw new NotFoundException(id);
+			}
 		} catch (DataIntegrityViolationException e) {
 			throw new DataBaseException(e.getMessage());
 		}
-
 	}
 
 	@Override

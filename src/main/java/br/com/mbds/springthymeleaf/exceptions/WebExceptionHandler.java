@@ -11,10 +11,22 @@ public class WebExceptionHandler {
 
 	@ExceptionHandler(DataBaseException.class)
 	public String dataBaseError(DataBaseException e, RedirectAttributes attr, HttpServletRequest request) {
-		attr.addFlashAttribute("error", "Erro no banco de dados!");
+		attr.addFlashAttribute("error", "Erro no banco de dados.");
 		attr.addFlashAttribute("error_detail", e.getMessage());
-		var uri = request.getRequestURI().contains("salvar") ? request.getRequestURI().replace("salvar", "cadastrar")
-				: request.getRequestURI().replace("excluir", "listar");
-		return "redirect:" + uri;
+		return uriRedirect(request);
+	}
+
+	@ExceptionHandler(NotFoundException.class)
+	public String notFoundError(NotFoundException e, RedirectAttributes attr, HttpServletRequest request) {
+		attr.addFlashAttribute("error", "Nenhum registro encontrado.");
+		attr.addFlashAttribute("error_detail", e.getMessage());
+		return uriRedirect(request);
+	}
+
+	private String uriRedirect(HttpServletRequest request) {
+		var pathAttrs = request.getRequestURI().split("/");
+		var resource = pathAttrs[1];
+		var action = pathAttrs[2].contains("salvar") ? pathAttrs[2].replace("salvar", "cadastrar") : "listar";
+		return "redirect:/" + resource + "/" + action;
 	}
 }
