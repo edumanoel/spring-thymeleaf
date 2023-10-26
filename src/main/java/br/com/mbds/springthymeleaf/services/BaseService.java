@@ -5,12 +5,12 @@ import java.util.Optional;
 
 public interface BaseService<T> {
 
-	public T save(T entity);
+	T save(T entity);
 
-	public void delete(Long id);
+	void delete(Long id);
 
-	public Optional<T> findById(Long id);
+	Optional<T> findById(Long id);
 
-	public List<T> findAll();
+	List<T> findAll();
 
 }

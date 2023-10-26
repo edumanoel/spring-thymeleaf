@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.mbds.springthymeleaf.entities.Cargo;
@@ -57,6 +58,12 @@ public class FuncionarioController {
 		funcionarioService.delete(id);
 		model.addAttribute("success", "Funcionario excluído com sucesso.");
 		return listar(model);
+	}
+
+	@GetMapping("buscar/nome")
+	public String getFuncionarioPorNome(@RequestParam("nome") String nome, ModelMap model) {
+		model.addAttribute("funcionario", funcionarioService.findByNome(nome));
+		return "/funcionario/lista";
 	}
 
 	@ModelAttribute("listaCargos")

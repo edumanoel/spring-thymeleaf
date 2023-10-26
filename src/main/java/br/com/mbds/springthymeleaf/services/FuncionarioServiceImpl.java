@@ -54,4 +54,9 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 		return repository.findAll();
 	}
 
+	@Override
+	public List<Funcionario> findByNome(String nome) {
+		return repository.findByNomeContaining(nome);
+	}
+
 }
