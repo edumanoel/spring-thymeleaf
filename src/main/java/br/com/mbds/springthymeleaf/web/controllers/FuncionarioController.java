@@ -1,8 +1,11 @@
 package br.com.mbds.springthymeleaf.web.controllers;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -62,7 +65,22 @@ public class FuncionarioController {
 
 	@GetMapping("buscar/nome")
 	public String getFuncionarioPorNome(@RequestParam("nome") String nome, ModelMap model) {
-		model.addAttribute("funcionario", funcionarioService.findByNome(nome));
+		model.addAttribute("listaFuncionarios", funcionarioService.findByNome(nome));
+		return "/funcionario/lista";
+	}
+
+	@GetMapping("buscar/cargo")
+	public String getFuncionarioPorCargo(@RequestParam("id") Long id, ModelMap model) {
+		var cargo = cargoService.findById(id);
+		model.addAttribute("listaFuncionarios", funcionarioService.findByCargo(cargo));
+		return "/funcionario/lista";
+	}
+
+	@GetMapping("buscar/data")
+	public String getFuncionarioPorData(ModelMap model,
+			@RequestParam(required = false) @DateTimeFormat(iso = ISO.DATE) LocalDate entrada,
+			@RequestParam(required = false) @DateTimeFormat(iso = ISO.DATE) LocalDate saida) {
+		model.addAttribute("listaFuncionarios", funcionarioService.findByData(entrada, saida));
 		return "/funcionario/lista";
 	}
 

@@ -1,7 +1,6 @@
 package br.com.mbds.springthymeleaf.services;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface BaseService<T> {
 
@@ -9,7 +8,7 @@ public interface BaseService<T> {
 
 	void delete(Long id);
 
-	Optional<T> findById(Long id);
+	T findById(Long id);
 
 	List<T> findAll();
 

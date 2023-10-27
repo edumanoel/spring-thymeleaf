@@ -1,7 +1,6 @@
 package br.com.mbds.springthymeleaf.services;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -45,8 +44,8 @@ public class DepartamentoServiceImpl implements DepartamentoService {
 	}
 
 	@Override
-	public Optional<Departamento> findById(Long id) {
-		return repository.findById(id);
+	public Departamento findById(Long id) {
+		return repository.findById(id).orElseThrow(() -> new NotFoundException(id));
 	}
 
 	@Override
