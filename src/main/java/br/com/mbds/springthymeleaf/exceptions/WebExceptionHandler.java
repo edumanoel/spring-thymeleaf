@@ -23,6 +23,12 @@ public class WebExceptionHandler {
 		return uriRedirect(request);
 	}
 
+	@ExceptionHandler(ValidatedException.class)
+	public String validatedError(ValidatedException e, RedirectAttributes attr, HttpServletRequest request) {
+		attr.addFlashAttribute("errorslist", e.getMessageErrors());
+		return uriRedirect(request);
+	}
+
 	private String uriRedirect(HttpServletRequest request) {
 		var pathAttrs = request.getRequestURI().split("/");
 		var resource = pathAttrs[1];

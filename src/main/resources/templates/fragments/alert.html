@@ -1,20 +1,35 @@
 <div th:if="${success} != null">
-	<div class="alert alert-success alert-dismissible fade show" role="alert">
-		<i class="oi oi-check"></i>
-		<strong th:text="${success}"></strong>
-		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	<div class="alert alert-success alert-dismissible fade show"
+		role="alert">
+		<i class="oi oi-check"></i> <strong th:text="${success}"></strong>
+		<button type="button" class="close" data-dismiss="alert"
+			aria-label="Close">
 			<span aria-hidden="true">&times;</span>
 		</button>
 	</div>
 </div>
 
 <div th:if="${error} != null">
-	<div class="alert alert-danger alert-dismissible fade show" role="alert">
-		<i class="oi oi-warning-triangle"></i>
-		<strong th:text="${error}"></strong>
+	<div class="alert alert-danger alert-dismissible fade show"
+		role="alert">
+		<i class="oi oi-warning"></i> <strong th:text="${error}"></strong>
 		<hr>
-		  <p class="font-weight-light" th:text="${error_detail}">></p>
-		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<p class="font-weight-light" th:text="${error_detail}">></p>
+		<button type="button" class="close" data-dismiss="alert"
+			aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+</div>
+
+<div th:if="${errorslist}" th:fragment="validacao">
+	<div class="alert alert-danger alert-dismissible fade show"
+		role="alert">
+		<div th:each="error : ${errorslist}">
+			<i class="oi oi-warning"></i> <span th:text="${error}"></span>
+		</div>
+		<button type="button" class="close" data-dismiss="alert"
+			aria-label="Close">
 			<span aria-hidden="true">&times;</span>
 		</button>
 	</div>
