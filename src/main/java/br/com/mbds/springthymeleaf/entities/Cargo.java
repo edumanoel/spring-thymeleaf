@@ -22,12 +22,12 @@ import lombok.Setter;
 @Table(name = "CARGOS")
 public class Cargo extends AbstractEntity<Long> {
 
-	@NotBlank(message = "Informe um nome.")
-	@Size(min = 3, max = 60, message = "O nome deve ter entre {min} e {max} caracteres.")
+	@NotBlank(message = "{cargo.nome.NotBlank.message}")
+	@Size(min = 3, max = 60, message = "{cargo.nome.Size.message}")
 	@Column(nullable = false, unique = true, length = 60)
 	private String nome;
 
-	@NotNull(message = "Selecione um departamento.")
+	@NotNull(message = "{departamento.NotNull.message}")
 	@ManyToOne
 	@JoinColumn(name = "departamento_id")
 	private Departamento departamento;

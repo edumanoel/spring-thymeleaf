@@ -19,8 +19,8 @@ import lombok.Setter;
 @Table(name = "DEPARTAMENTOS")
 public class Departamento extends AbstractEntity<Long> {
 
-	@NotBlank(message = "Informe um nome.")
-	@Size(min = 3, max = 60, message = "O nome deve ter entre {min} e {max} caracteres.")
+	@NotBlank(message = "{departamento.nome.NotBlank.message}")
+	@Size(min = 3, max = 60, message = "{departamento.nome.Size.message}")
 	@Column(nullable = false, unique = true, length = 60)
 	private String nome;
 
