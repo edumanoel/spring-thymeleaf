@@ -7,14 +7,11 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.annotation.Validated;
 
 import br.com.mbds.springthymeleaf.entities.Departamento;
 import br.com.mbds.springthymeleaf.exceptions.DataBaseException;
 import br.com.mbds.springthymeleaf.exceptions.NotFoundException;
-import br.com.mbds.springthymeleaf.exceptions.ValidatedException;
 import br.com.mbds.springthymeleaf.repositories.DepartamentoRepository;
-import jakarta.validation.ConstraintViolationException;
 
 @Service
 public class DepartamentoServiceImpl implements DepartamentoService {
@@ -24,13 +21,11 @@ public class DepartamentoServiceImpl implements DepartamentoService {
 
 	@Transactional(propagation = Propagation.SUPPORTS)
 	@Override
-	public Departamento save(@Validated Departamento entity) {
+	public Departamento save(Departamento entity) {
 		try {
 			return repository.save(entity);
 		} catch (DataIntegrityViolationException e) {
 			throw new DataBaseException(e.getMessage());
-		} catch (ConstraintViolationException e) {
-			throw new ValidatedException(e.getMessage(), e.getConstraintViolations());
 		}
 	}
 

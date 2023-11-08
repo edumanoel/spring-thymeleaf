@@ -41,12 +41,10 @@ public class CargoController {
 	}
 
 	@PostMapping("salvar")
-	public String salvar(@Validated Cargo cargo, RedirectAttributes attr, BindingResult result) {
-
+	public String salvar(@Validated Cargo cargo, BindingResult result, RedirectAttributes attr) {
 		if (result.hasErrors()) {
 			return "/cargo/cadastro";
 		}
-
 		cargoService.save(cargo);
 		attr.addFlashAttribute("success", "Cargo salvo com sucesso.");
 		return "redirect:/cargos/cadastrar";
