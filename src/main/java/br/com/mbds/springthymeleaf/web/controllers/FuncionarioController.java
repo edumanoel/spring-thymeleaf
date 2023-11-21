@@ -44,19 +44,19 @@ public class FuncionarioController {
 
 	@GetMapping("cadastrar")
 	public String cadastrar(Funcionario funcionario) {
-		return "/funcionario/cadastro";
+		return "funcionario/cadastro";
 	}
 
 	@GetMapping("listar")
 	public String listar(ModelMap model) {
 		model.addAttribute("listaFuncionarios", funcionarioService.findAll());
-		return "/funcionario/lista";
+		return "funcionario/lista";
 	}
 
 	@PostMapping("salvar")
 	public String salvar(@Validated Funcionario funcionario, BindingResult result, RedirectAttributes attr) {
 		if (result.hasErrors()) {
-			return "/funcionario/cadastro";
+			return "funcionario/cadastro";
 		}
 		funcionarioService.save(funcionario);
 		attr.addFlashAttribute("success", "Funcionario salvo com sucesso.");
@@ -66,7 +66,7 @@ public class FuncionarioController {
 	@GetMapping("editar/{id}")
 	public String editar(@PathVariable Long id, ModelMap model) {
 		model.addAttribute("funcionario", funcionarioService.findById(id));
-		return "/funcionario/cadastro";
+		return "funcionario/cadastro";
 	}
 
 	@GetMapping("excluir/{id}")
@@ -79,14 +79,14 @@ public class FuncionarioController {
 	@GetMapping("buscar/nome")
 	public String getFuncionarioPorNome(@RequestParam("nome") String nome, ModelMap model) {
 		model.addAttribute("listaFuncionarios", funcionarioService.findByNome(nome));
-		return "/funcionario/lista";
+		return "funcionario/lista";
 	}
 
 	@GetMapping("buscar/cargo")
 	public String getFuncionarioPorCargo(@RequestParam("id") Long id, ModelMap model) {
 		var cargo = cargoService.findById(id);
 		model.addAttribute("listaFuncionarios", funcionarioService.findByCargo(cargo));
-		return "/funcionario/lista";
+		return "funcionario/lista";
 	}
 
 	@GetMapping("buscar/data")
@@ -94,7 +94,7 @@ public class FuncionarioController {
 			@RequestParam(required = false) @DateTimeFormat(iso = ISO.DATE) LocalDate entrada,
 			@RequestParam(required = false) @DateTimeFormat(iso = ISO.DATE) LocalDate saida) {
 		model.addAttribute("listaFuncionarios", funcionarioService.findByData(entrada, saida));
-		return "/funcionario/lista";
+		return "funcionario/lista";
 	}
 
 	@ModelAttribute("listaCargos")

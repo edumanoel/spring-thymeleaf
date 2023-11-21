@@ -14,7 +14,7 @@
 					<li class="nav-item active"><i class="oi oi-caret-right"></i>
 						<span th:text="#{label.cargo.cadastrar}"></span></li>
 				</ul>
-				<a class="btn btn-primary btn-md" href="/cargos/listar"
+				<a class="btn btn-primary btn-md" th:href="@{/cargos/listar}"
 					role="button"> <span class="oi oi-spreadsheet" title="Cadastro"
 					aria-hidden="true"></span> <span th:text="#{label.cargo.button.listar}"></span>
 				</a>
