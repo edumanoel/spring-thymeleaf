@@ -10,14 +10,16 @@
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5 class="modal-title">Atenção!</h5>
+					<h5 class="modal-title"  th:text="#{modal.delete.titulo}"></h5>
 				</div>
 				<div class="modal-body">
-					<p>Clique em OK para confirmar a exclusão.</p>
+					<p th:text="#{modal.delete.descricao}"></p>
 				</div>
 				<div class="modal-footer">
-					<button id="ok_confirmar" type="button" class="btn btn-primary">OK</button>
-					<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+					<button id="ok_confirmar" type="button" class="btn btn-primary"
+						th:text="#{modal.delete.button.ok}"></button>
+					<button type="button" class="btn btn-secondary" data-dismiss="modal" 
+						th:text="#{modal.delete.button.cancelar}"></button>
 				</div>
 			</div>
 		</div>

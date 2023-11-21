@@ -12,11 +12,11 @@
 			<div class="collapse navbar-collapse" id="navbarsExampleDefault">
 				<ul class="navbar-nav mr-auto">
 					<li class="nav-item active"><i class="oi oi-caret-right"></i>
-						<span>Cadastrar Departamentos</span></li>
+						<span th:text="#{label.departamento.cadastrar}"></span></li>
 				</ul>
 				<a class="btn btn-primary btn-md" href="/departamentos/listar"
 					role="button"> <span class="oi oi-spreadsheet" title="Listar"
-					aria-hidden="true"></span> <span>Listar Departamentos</span>
+					aria-hidden="true"></span> <span th:text="#{label.departamento.button.listar}"></span>
 				</a>
 			</div>
 		</nav>
@@ -28,13 +28,13 @@
 				<div th:replace="~{fragments/validacao :: validacao}"></div>
 				<div class="form-row">
 					<div class="form-group col-md-6">
-						<label for="nome">Departamento</label> <input type="text"
-							class="form-control" id="nome" placeholder="Nome Departamento"
+						<label for="nome" th:text="#{label.departamento.nome}"></label> <input type="text"
+							class="form-control" id="nome" th:placeholder="#{label.departamento.nome}"
 							autofocus="autofocus" th:field="*{nome}" />
 					</div>
 				</div>
 				<input type="hidden" id="id" th:field="*{id}" />
-				<button type="submit" class="btn btn-primary btn-sm">Salvar</button>
+				<button type="submit" class="btn btn-primary btn-sm" th:text="#{forms.button.salvar}"></button>
 			</form>
 		</div>
 	</section>
