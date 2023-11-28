@@ -2,8 +2,13 @@ package br.com.mbds.springthymeleaf.web.controllers;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.stereotype.Controller;
@@ -48,8 +53,13 @@ public class FuncionarioController {
 	}
 
 	@GetMapping("listar")
-	public String listar(ModelMap model) {
-		model.addAttribute("listaFuncionarios", funcionarioService.findAll());
+	public String listar(ModelMap model, @RequestParam("page") Optional<Integer> page) {
+		int itensPorPagina = 5;
+		Pageable pageable = PageRequest.of(page.orElse(1) - 1, itensPorPagina, Sort.by("nome").ascending());
+		Page<Funcionario> dados = funcionarioService.findAll(pageable);
+		model.addAttribute("listaFuncionarios", dados.getContent());
+		model.addAttribute("totalPaginas", dados.getTotalPages());
+		model.addAttribute("pagina", dados.getNumber() + 1);
 		return "funcionario/lista";
 	}
 
@@ -70,10 +80,10 @@ public class FuncionarioController {
 	}
 
 	@GetMapping("excluir/{id}")
-	public String excluir(@PathVariable Long id, ModelMap model) {
+	public String excluir(@PathVariable Long id, RedirectAttributes attr) {
 		funcionarioService.delete(id);
-		model.addAttribute("success", "Funcionario excluído com sucesso.");
-		return listar(model);
+		attr.addFlashAttribute("success", "Funcionario excluído com sucesso.");
+		return "redirect:/funcionarios/listar";
 	}
 
 	@GetMapping("buscar/nome")

@@ -1,8 +1,13 @@
 package br.com.mbds.springthymeleaf.web.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -12,6 +17,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.mbds.springthymeleaf.entities.Cargo;
@@ -35,8 +41,13 @@ public class CargoController {
 	}
 
 	@GetMapping("listar")
-	public String listar(ModelMap model) {
-		model.addAttribute("listaCargos", cargoService.findAll());
+	public String listar(ModelMap model, @RequestParam("page") Optional<Integer> page) {
+		int itensPorPagina = 5;
+		Pageable pageable = PageRequest.of(page.orElse(1) - 1, itensPorPagina, Sort.by("nome").ascending());
+		Page<Cargo> dados = cargoService.findAll(pageable);
+		model.addAttribute("listaCargos", dados.getContent());
+		model.addAttribute("totalPaginas", dados.getTotalPages());
+		model.addAttribute("pagina", dados.getNumber() + 1);
 		return "cargo/lista";
 	}
 
@@ -57,10 +68,10 @@ public class CargoController {
 	}
 
 	@GetMapping("excluir/{id}")
-	public String excluir(@PathVariable Long id, ModelMap model) {
+	public String excluir(@PathVariable Long id, RedirectAttributes attr) {
 		cargoService.delete(id);
-		model.addAttribute("success", "Cargo excluído com sucesso.");
-		return listar(model);
+		attr.addFlashAttribute("success", "Cargo excluído com sucesso.");
+		return "redirect:/cargos/listar";
 	}
 
 	@ModelAttribute("listaDepartamentos")

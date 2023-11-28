@@ -6,6 +6,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -54,6 +56,11 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 	@Override
 	public List<Funcionario> findAll() {
 		return repository.findAll();
+	}
+
+	@Override
+	public Page<Funcionario> findAll(Pageable pageable) {
+		return repository.findAll(pageable);
 	}
 
 	@Override

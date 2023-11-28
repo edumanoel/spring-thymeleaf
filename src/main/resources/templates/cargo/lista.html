@@ -51,6 +51,22 @@
 						</tr>
 					</tbody>
 				</table>
+				<nav aria-label="Page navigation">
+				  <ul class="pagination justify-content-center">
+				  	<li th:class="${pagina == 1 ? 'disabled page-item':'page-item'}">
+				      <a class="page-link" th:text="#{pagination.previous}" 
+				      	th:href="@{/cargos/listar(page=${pagina}-1)}"></a>
+				    </li>
+				    <li th:each="i : ${#numbers.sequence(1, totalPaginas)}" 
+				    	th:class="${pagina == i ? 'active page-item':'page-item'}">
+				    	<a class="page-link" th:text="${i}" th:href="@{/cargos/listar(page=${i})}"></a>
+				    </li>
+				    <li th:class="${pagina == totalPaginas ? 'disabled page-item':'page-item'}">
+				      <a class="page-link" href="#" th:text="#{pagination.next}"
+				      	th:href="@{/cargos/listar(page=${pagina}+1)}"></a>
+				    </li>
+				  </ul>
+				</nav>
 			</div>
 		</div>
 		<div th:replace="~{fragments/modal :: modal}"></div>
