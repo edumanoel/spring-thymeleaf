@@ -1,17 +1,19 @@
 package br.com.mbds.springthymeleaf.services;
 
 import java.time.LocalDate;
-import java.util.List;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import br.com.mbds.springthymeleaf.entities.Cargo;
 import br.com.mbds.springthymeleaf.entities.Funcionario;
 
 public interface FuncionarioService extends BaseService<Funcionario> {
 
-	List<Funcionario> findByNome(String nome);
+	Page<Funcionario> findByNome(String nome, Pageable pageable);
 
-	List<Funcionario> findByCargo(Cargo cargo);
+	Page<Funcionario> findByCargo(Cargo cargo, Pageable pageable);
 
-	List<Funcionario> findByData(LocalDate dataEntrada, LocalDate dataSaida);
+	Page<Funcionario> findByData(LocalDate dataEntrada, LocalDate dataSaida, Pageable pageable);
 
 }

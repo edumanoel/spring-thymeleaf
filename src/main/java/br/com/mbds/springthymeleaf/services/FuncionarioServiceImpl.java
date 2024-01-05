@@ -1,7 +1,6 @@
 package br.com.mbds.springthymeleaf.services;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.mbds.springthymeleaf.entities.Cargo;
 import br.com.mbds.springthymeleaf.entities.Funcionario;
 import br.com.mbds.springthymeleaf.exceptions.DataBaseException;
+import br.com.mbds.springthymeleaf.exceptions.GeneralException;
 import br.com.mbds.springthymeleaf.exceptions.NotFoundException;
 import br.com.mbds.springthymeleaf.repositories.FuncionarioRepository;
 
@@ -64,25 +64,25 @@ public class FuncionarioServiceImpl implements FuncionarioService {
 	}
 
 	@Override
-	public List<Funcionario> findByNome(String nome) {
-		return repository.findByNomeContaining(nome);
+	public Page<Funcionario> findByNome(String nome, Pageable pageable) {
+		return repository.findByNomeContaining(nome, pageable);
 	}
 
 	@Override
-	public List<Funcionario> findByCargo(Cargo cargo) {
-		return repository.findByCargo(cargo);
+	public Page<Funcionario> findByCargo(Cargo cargo, Pageable pageable) {
+		return repository.findByCargo(cargo, pageable);
 	}
 
 	@Override
-	public List<Funcionario> findByData(LocalDate dataEntrada, LocalDate dataSaida) {
+	public Page<Funcionario> findByData(LocalDate dataEntrada, LocalDate dataSaida, Pageable pageable) {
 		if (dataEntrada != null && dataSaida != null) {
-			return repository.findbyBetweenDataEntradaAndDataSaida(dataEntrada, dataSaida);
+			return repository.findbyBetweenDataEntradaAndDataSaida(dataEntrada, dataSaida, pageable);
 		} else if (dataEntrada != null) {
-			return repository.findByDataEntrada(dataEntrada);
+			return repository.findByDataEntrada(dataEntrada, pageable);
 		} else if (dataSaida != null) {
-			return repository.findByDataSaida(dataSaida);
+			return repository.findByDataSaida(dataSaida, pageable);
 		} else {
-			return new ArrayList<>();
+			throw new GeneralException("Informe a(s) data(s) para realizar a busca.");
 		}
 	}
 

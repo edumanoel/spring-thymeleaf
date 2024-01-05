@@ -23,6 +23,13 @@ public class WebExceptionHandler {
 		return uriRedirect(request);
 	}
 
+	@ExceptionHandler(GeneralException.class)
+	public String generalError(GeneralException e, RedirectAttributes attr, HttpServletRequest request) {
+		attr.addFlashAttribute("error", "Ocorreu um erro!");
+		attr.addFlashAttribute("error_detail", e.getMessage());
+		return uriRedirect(request);
+	}
+
 	private String uriRedirect(HttpServletRequest request) {
 		var pathAttrs = request.getRequestURI().split("/");
 		var resource = pathAttrs[1];

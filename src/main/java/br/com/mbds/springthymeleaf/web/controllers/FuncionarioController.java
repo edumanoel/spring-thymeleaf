@@ -36,6 +36,8 @@ import br.com.mbds.springthymeleaf.web.validations.FuncionarioValidator;
 @RequestMapping("funcionarios")
 public class FuncionarioController {
 
+	private static final int ITENS_POR_PAGINA = 5;
+
 	@Autowired
 	private FuncionarioService funcionarioService;
 
@@ -54,12 +56,9 @@ public class FuncionarioController {
 
 	@GetMapping("listar")
 	public String listar(ModelMap model, @RequestParam("page") Optional<Integer> page) {
-		int itensPorPagina = 5;
-		Pageable pageable = PageRequest.of(page.orElse(1) - 1, itensPorPagina, Sort.by("nome").ascending());
+		Pageable pageable = PageRequest.of(page.orElse(1) - 1, ITENS_POR_PAGINA, Sort.by("nome").ascending());
 		Page<Funcionario> dados = funcionarioService.findAll(pageable);
-		model.addAttribute("listaFuncionarios", dados.getContent());
-		model.addAttribute("totalPaginas", dados.getTotalPages());
-		model.addAttribute("pagina", dados.getNumber() + 1);
+		setAttributeModel(model, dados);
 		return "funcionario/lista";
 	}
 
@@ -87,23 +86,31 @@ public class FuncionarioController {
 	}
 
 	@GetMapping("buscar/nome")
-	public String getFuncionarioPorNome(@RequestParam("nome") String nome, ModelMap model) {
-		model.addAttribute("listaFuncionarios", funcionarioService.findByNome(nome));
+	public String getFuncionarioPorNome(ModelMap model, @RequestParam("page") Optional<Integer> page,
+			@RequestParam("nome") String nome) {
+		Pageable pageable = PageRequest.of(page.orElse(1) - 1, ITENS_POR_PAGINA, Sort.by("nome").ascending());
+		Page<Funcionario> dados = funcionarioService.findByNome(nome, pageable);
+		setAttributeModel(model, dados);
 		return "funcionario/lista";
 	}
 
 	@GetMapping("buscar/cargo")
-	public String getFuncionarioPorCargo(@RequestParam("id") Long id, ModelMap model) {
+	public String getFuncionarioPorCargo(ModelMap model, @RequestParam("page") Optional<Integer> page,
+			@RequestParam("id") Long id) {
 		var cargo = cargoService.findById(id);
-		model.addAttribute("listaFuncionarios", funcionarioService.findByCargo(cargo));
+		Pageable pageable = PageRequest.of(page.orElse(1) - 1, ITENS_POR_PAGINA, Sort.by("nome").ascending());
+		Page<Funcionario> dados = funcionarioService.findByCargo(cargo, pageable);
+		setAttributeModel(model, dados);
 		return "funcionario/lista";
 	}
 
 	@GetMapping("buscar/data")
-	public String getFuncionarioPorData(ModelMap model,
+	public String getFuncionarioPorData(ModelMap model, @RequestParam("page") Optional<Integer> page,
 			@RequestParam(required = false) @DateTimeFormat(iso = ISO.DATE) LocalDate entrada,
 			@RequestParam(required = false) @DateTimeFormat(iso = ISO.DATE) LocalDate saida) {
-		model.addAttribute("listaFuncionarios", funcionarioService.findByData(entrada, saida));
+		Pageable pageable = PageRequest.of(page.orElse(1) - 1, ITENS_POR_PAGINA, Sort.by("nome").ascending());
+		Page<Funcionario> dados = funcionarioService.findByData(entrada, saida, pageable);
+		setAttributeModel(model, dados);
 		return "funcionario/lista";
 	}
 
@@ -116,4 +123,11 @@ public class FuncionarioController {
 	public UF[] getUFs() {
 		return UF.values();
 	}
+
+	private void setAttributeModel(ModelMap model, Page<Funcionario> page) {
+		model.addAttribute("listaFuncionarios", page.getContent());
+		model.addAttribute("totalPaginas", page.getTotalPages());
+		model.addAttribute("pagina", page.getNumber() + 1);
+	}
+
 }
