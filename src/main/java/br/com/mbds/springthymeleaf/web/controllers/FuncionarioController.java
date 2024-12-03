@@ -55,7 +55,7 @@ public class FuncionarioController {
 	}
 
 	@GetMapping("listar")
-	public String listar(ModelMap model, @RequestParam("page") Optional<Integer> page) {
+	public String listar(ModelMap model, @RequestParam Optional<Integer> page) {
 		Pageable pageable = PageRequest.of(page.orElse(1) - 1, ITENS_POR_PAGINA, Sort.by("nome").ascending());
 		Page<Funcionario> dados = funcionarioService.findAll(pageable);
 		setAttributeModel(model, dados);
@@ -86,8 +86,8 @@ public class FuncionarioController {
 	}
 
 	@GetMapping("buscar/nome")
-	public String getFuncionarioPorNome(ModelMap model, @RequestParam("page") Optional<Integer> page,
-			@RequestParam("nome") String nome) {
+	public String getFuncionarioPorNome(ModelMap model, @RequestParam Optional<Integer> page,
+			@RequestParam String nome) {
 		Pageable pageable = PageRequest.of(page.orElse(1) - 1, ITENS_POR_PAGINA, Sort.by("nome").ascending());
 		Page<Funcionario> dados = funcionarioService.findByNome(nome, pageable);
 		setAttributeModel(model, dados);
@@ -95,8 +95,8 @@ public class FuncionarioController {
 	}
 
 	@GetMapping("buscar/cargo")
-	public String getFuncionarioPorCargo(ModelMap model, @RequestParam("page") Optional<Integer> page,
-			@RequestParam("id") Long id) {
+	public String getFuncionarioPorCargo(ModelMap model, @RequestParam Optional<Integer> page,
+			@RequestParam Long id) {
 		var cargo = cargoService.findById(id);
 		Pageable pageable = PageRequest.of(page.orElse(1) - 1, ITENS_POR_PAGINA, Sort.by("nome").ascending());
 		Page<Funcionario> dados = funcionarioService.findByCargo(cargo, pageable);
@@ -105,7 +105,7 @@ public class FuncionarioController {
 	}
 
 	@GetMapping("buscar/data")
-	public String getFuncionarioPorData(ModelMap model, @RequestParam("page") Optional<Integer> page,
+	public String getFuncionarioPorData(ModelMap model, @RequestParam Optional<Integer> page,
 			@RequestParam(required = false) @DateTimeFormat(iso = ISO.DATE) LocalDate entrada,
 			@RequestParam(required = false) @DateTimeFormat(iso = ISO.DATE) LocalDate saida) {
 		Pageable pageable = PageRequest.of(page.orElse(1) - 1, ITENS_POR_PAGINA, Sort.by("nome").ascending());

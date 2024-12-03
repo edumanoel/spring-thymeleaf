@@ -41,7 +41,7 @@ public class CargoController {
 	}
 
 	@GetMapping("listar")
-	public String listar(ModelMap model, @RequestParam("page") Optional<Integer> page) {
+	public String listar(ModelMap model, @RequestParam Optional<Integer> page) {
 		int itensPorPagina = 5;
 		Pageable pageable = PageRequest.of(page.orElse(1) - 1, itensPorPagina, Sort.by("nome").ascending());
 		Page<Cargo> dados = cargoService.findAll(pageable);
